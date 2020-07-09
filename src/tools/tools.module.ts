@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { ToolsController } from './tools.controller';
-import { ToolSchema } from './tool.schema';
 import { ToolsService } from './tools.service';
+import { ToolSchema } from './classes/tool.schema';
 
 
 @Module({
