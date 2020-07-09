@@ -1,45 +1,48 @@
-import { Logger, Controller, Get, Param, Post, Body, Delete, Patch } from "@nestjs/common";
+import { Logger, Controller, Get, Param, Post, Body, Delete, Query } from "@nestjs/common";
 
 import { ToolsService } from "./tools.service";
-import { Tool } from "./tool.model";
+import { Tool } from "./classes/tool.schema";
+import { ApiTags, ApiOperation, ApiResponse, ApiParam } from "@nestjs/swagger";
+import { CreateToolDto } from "./dto/create-tool.dto";
 
 
+@ApiTags('tools')
 @Controller('tools')
 export class ToolsController {
-    
+
     private logger = new Logger('ToolsController');
 
     constructor(
         private toolsService: ToolsService
-    ) {}
- 
-   @Get()
-   async getAll(): Promise<Tool[]> {
-     return this.toolsService.getAll();
-   }
- 
-   @Get(':id')
-   async getTaskById(@Param('id') id: string,): Promise<Tool> {
-     return this.toolsService.getById(id);
-   }
- 
-   @Post()
-   create(@Body() Tool: Tool): Promise<Tool> {
-     return this.toolsService.create(Tool);
-   }
- 
-   @Delete(':id')
-   deleteTask(
-     @Param('id') id: string
-   ) {
-     return this.toolsService.delete(id);
-   }
- 
-   @Patch('/:id')
-   update(
-     @Param('id') id: string, 
-     @Body() Tool: Tool,
-   ): Promise<Tool> {
-     return this.toolsService.update(id, Tool);
-   }
+    ) { }
+
+    @Get()
+    @ApiOperation({ summary: 'List all tools' })
+    async getAll(): Promise<Tool[]> {
+        return this.toolsService.getAll();
+    }
+
+    @Get(':tag')
+    @ApiOperation({ summary: 'List of tools with tag filter' })
+    async getAllWithFilter(
+        @Query('tag') tag: string
+    ): Promise<Tool[]> {
+        return this.toolsService.getAllWithFilter();
+    }
+
+    @Post()
+    @ApiOperation({ summary: 'Create tool' })
+    @ApiResponse({ status: 403, description: 'Forbidden.' })
+    async create(@Body() createToolDto: CreateToolDto): Promise<Tool> {
+        return this.toolsService.create(createToolDto);
+    }
+
+    @Delete(':id')
+    @ApiOperation({ summary: 'Delete a tool by id' })
+    deleteTask(
+        @Param('id') id: string
+    ) {
+        return this.toolsService.delete(id);
+    }
+
 }
