@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
-function swaggerConfig(app) {
+function swaggerConfi(app) {
   const options = new DocumentBuilder()
   .setTitle('VUTTR API')
   .setDescription('This is the API documentation about VUTTR (Very Useful Tools to Remember).')
@@ -11,14 +11,14 @@ function swaggerConfig(app) {
   .build();
   
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('/', app, document);
 }
 
 async function bootstrap() {
 
   const app = await NestFactory.create(AppModule, { cors: true });
 
-  swaggerConfig(app);
+  swaggerConfi(app);
 
   await app.listen(process.env.PORT || 3000);
 }

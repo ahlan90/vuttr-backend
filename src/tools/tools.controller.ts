@@ -1,13 +1,13 @@
-import { Logger, Controller, Get, Param, Post, Body, Delete, Query } from "@nestjs/common";
+import { Logger, Controller, Get, Param, Post, Body, Delete, Query, HttpCode } from "@nestjs/common";
 
 import { ToolsService } from "./tools.service";
 import { Tool } from "./classes/tool.schema";
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from "@nestjs/swagger";
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from "@nestjs/swagger";
 import { CreateToolDto } from "./dto/create-tool.dto";
 
 
 @ApiTags('tools')
-@Controller('tools')
+@Controller()
 export class ToolsController {
 
     private logger = new Logger('ToolsController');
@@ -16,29 +16,32 @@ export class ToolsController {
         private toolsService: ToolsService
     ) { }
 
-    @Get()
+    @Get('tools')
     @ApiOperation({ summary: 'List all tools' })
     async getAll(): Promise<Tool[]> {
         return this.toolsService.getAll();
     }
 
-    @Get()
-    @ApiOperation({ summary: 'List of tools with tag filter' })
+    @Get('tools?tag=:tag')
+    @ApiOperation({ summary: 'Filter list of tools by tag' })
     async getAllWithFilter(
-        @Query('tag') tag
+        @Param('tag') tag: string
     ): Promise<Tool[]> {
         return this.toolsService.getAllWithFilter();
-    }blz
+    }
 
-    @Post()
+    @Post('tools')
     @ApiOperation({ summary: 'Create tool' })
-    @ApiResponse({ status: 403, description: 'Forbidden.' })
+    @ApiResponse({ status: 201, description: 'Created' })
+    @ApiBody({ type: CreateToolDto })
     async create(@Body() createToolDto: CreateToolDto): Promise<Tool> {
         return this.toolsService.create(createToolDto);
     }
 
-    @Delete(':id')
+    @Delete('tools/:id')
+    @HttpCode(204)
     @ApiOperation({ summary: 'Delete a tool by id' })
+    @ApiResponse({ status: 204, description: 'No Content' })
     deleteTask(
         @Param('id') id: string
     ) {

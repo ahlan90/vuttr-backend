@@ -1,8 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, SchemaOptions } from 'mongoose';
 
-@Schema()
+const schemaOptions: SchemaOptions = {
+    toJSON: {
+        transform: function (doc, ret, options) {
+            ret.id = ret._id;
+            delete ret._id;
+            delete ret.__v;
+        }
+    }
+}
+@Schema(schemaOptions)
 export class Tool extends Document {
 
     @ApiProperty({
