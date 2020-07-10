@@ -4,7 +4,7 @@ import { ToolsModule } from './tools/tools.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://db_user:MTpITuXzeUtghVOT@cluster0-h8gex.mongodb.net/test?retryWrites=true&w=majority'),
+    MongooseModule.forRoot(process.env.MONGO_URL),
     ToolsModule,
   ]
 })
