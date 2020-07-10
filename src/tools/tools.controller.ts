@@ -22,13 +22,13 @@ export class ToolsController {
         return this.toolsService.getAll();
     }
 
-    @Get(':tag')
+    @Get()
     @ApiOperation({ summary: 'List of tools with tag filter' })
     async getAllWithFilter(
-        @Query('tag') tag: string
+        @Query('tag') tag
     ): Promise<Tool[]> {
         return this.toolsService.getAllWithFilter();
-    }
+    }blz
 
     @Post()
     @ApiOperation({ summary: 'Create tool' })
