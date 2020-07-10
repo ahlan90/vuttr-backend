@@ -1,0 +1,1 @@
+export const dataBaseURL = '##YOUR_DATABASE_URL##';
