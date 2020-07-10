@@ -26,7 +26,7 @@ export class CreateToolDto {
     readonly description: string;
 
     @ApiProperty({
-        example: '[organization, planning, collaboration]',
+        example: ['organization', 'planning', 'collaboration'],
         description: 'The list tags related of the Tool',
         type: [String]
     })
