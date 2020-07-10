@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, SchemaOptions } from 'mongoose';
 
+
 const schemaOptions: SchemaOptions = {
     toJSON: {
         transform: function (doc, ret, options) {
