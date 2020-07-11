@@ -1,0 +1,1 @@
+export const dataBaseURL = 'YOU_DATABASE_URI';
