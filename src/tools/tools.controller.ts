@@ -1,12 +1,13 @@
-import { Logger, Controller, Get, Param, Post, Body, Delete, Query, HttpCode } from "@nestjs/common";
+import { Logger, Controller, Get, Param, Post, Body, Delete, Query, HttpCode, UseGuards } from "@nestjs/common";
 
 import { ToolsService } from "./tools.service";
 import { Tool } from "./classes/tool.schema";
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from "@nestjs/swagger";
 import { CreateToolDto } from "./dto/create-tool.dto";
+import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 
 
-@ApiTags('tools')
+@ApiTags('Tools')
 @Controller()
 export class ToolsController {
 
@@ -30,6 +31,7 @@ export class ToolsController {
         return this.toolsService.getAllWithFilter();
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('tools')
     @ApiOperation({ summary: 'Create tool' })
     @ApiResponse({ status: 201, description: 'Created' })
